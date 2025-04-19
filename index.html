@@ -13,7 +13,9 @@
       }
 
       body {
-        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+        background: linear-gradient(45deg, #1a0d3d, #3b1e6e, #1a0d3d);
+        background-size: 200% 200%;
+        animation: gradientShift 10s ease infinite;
         color: #ffffff;
         min-height: 100vh;
         display: flex;
@@ -23,15 +25,27 @@
         overflow-x: hidden;
       }
 
+      @keyframes gradientShift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
       .container {
         max-width: 600px;
         width: 100%;
-        background: rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.05);
         border-radius: 15px;
         padding: 25px;
-        box-shadow: 0 0 15px rgba(0, 255, 255, 0.15);
-        backdrop-filter: blur(5px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
       }
 
       h1 {
@@ -39,18 +53,34 @@
         font-size: 2.4rem;
         font-weight: 900;
         color: #00ffcc;
-        text-shadow: 0 0 3px #00ffcc, 0 0 6px #00ffcc;
+        text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc;
         -webkit-text-stroke: 0.5px #003333;
         margin-bottom: 15px;
-        animation: neon 1.5s ease-in-out infinite alternate;
+        animation: glitch 2s linear infinite,
+          neon 1.5s ease-in-out infinite alternate;
+        position: relative;
+      }
+
+      @keyframes glitch {
+        2%,
+        64% {
+          transform: translate(2px, 0) skew(0deg);
+        }
+        4%,
+        60% {
+          transform: translate(-2px, 0) skew(0deg);
+        }
+        62% {
+          transform: translate(0, 0) skew(5deg);
+        }
       }
 
       @keyframes neon {
         from {
-          text-shadow: 0 0 3px #00ffcc, 0 0 6px #00ffcc;
+          text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 15px #00ffcc;
         }
         to {
-          text-shadow: 0 0 5px #00ffcc, 0 0 8px #00ffcc;
+          text-shadow: 0 0 8px #00ffcc, 0 0 15px #00ffcc, 0 0 20px #00ffcc;
         }
       }
 
@@ -75,12 +105,15 @@
       .avatar {
         width: 100px;
         height: 100px;
-        border-radius: 0; /* Hình vuông */
+        border-radius: 0;
         object-fit: cover;
-        border: 4px solid #00ffcc;
-        box-shadow: 0 0 20px #00ffcc;
-        animation: pulse 2s ease-in-out infinite;
+        border: 4px solid;
+        border-image: linear-gradient(45deg, #00ffcc, #ff00cc) 1;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.5),
+          0 0 30px rgba(255, 0, 204, 0.5);
+        animation: pulse 2s ease-in-out infinite, glow 3s ease-in-out infinite;
         transition: box-shadow 0.3s ease, transform 0.3s ease;
+        will-change: transform, box-shadow;
       }
 
       @keyframes pulse {
@@ -95,9 +128,25 @@
         }
       }
 
+      @keyframes glow {
+        0% {
+          box-shadow: 0 0 20px rgba(0, 255, 255, 0.5),
+            0 0 30px rgba(255, 0, 204, 0.5);
+        }
+        50% {
+          box-shadow: 0 0 30px rgba(0, 255, 255, 0.7),
+            0 0 40px rgba(255, 0, 204, 0.7);
+        }
+        100% {
+          box-shadow: 0 0 20px rgba(0, 255, 255, 0.5),
+            0 0 30px rgba(255, 0, 204, 0.5);
+        }
+      }
+
       .avatar:hover {
         animation-play-state: paused;
-        box-shadow: 0 0 30px #00ffcc;
+        box-shadow: 0 0 40px rgba(0, 255, 255, 0.8),
+          0 0 50px rgba(255, 0, 204, 0.8);
         transform: scale(1.1);
       }
 
@@ -117,7 +166,8 @@
         width: 100%;
         height: 60px;
         padding: 10px;
-        border: 2px solid #00ffcc;
+        border: 2px solid;
+        border-image: linear-gradient(45deg, #00ffcc, #ff00cc) 1;
         border-radius: 5px;
         background: rgba(255, 255, 255, 0.15);
         color: #ffffff;
@@ -127,7 +177,21 @@
         resize: none;
         white-space: pre-wrap;
         overflow-wrap: break-word;
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        animation: borderGlow 3s ease-in-out infinite;
         transition: all 0.3s ease;
+      }
+
+      @keyframes borderGlow {
+        0% {
+          box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+        50% {
+          box-shadow: 0 0 25px rgba(255, 0, 204, 0.5);
+        }
+        100% {
+          box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
       }
 
       .wallet-address textarea[readonly] {
@@ -152,26 +216,58 @@
         transition: all 0.3s ease;
         text-decoration: none;
         color: #ffffff;
+        position: relative;
+        overflow: hidden;
       }
 
       .btn-copy {
-        background: #ff00cc;
-        box-shadow: 0 0 8px rgba(255, 0, 204, 0.4);
-      }
-
-      .btn-copy:hover {
-        box-shadow: 0 0 12px rgba(255, 0, 204, 0.6);
-        transform: translateY(-2px);
+        background: linear-gradient(45deg, #ff00cc, #00ffcc);
+        background-size: 200% 200%;
+        animation: buttonGradient 4s ease infinite;
+        box-shadow: 0 0 10px rgba(255, 0, 204, 0.5);
       }
 
       .btn-check {
-        background: #00ccff;
-        box-shadow: 0 0 8px rgba(0, 255, 204, 0.4);
+        background: linear-gradient(45deg, #00ccff, #ff00cc);
+        background-size: 200% 200%;
+        animation: buttonGradient 4s ease infinite;
+        box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
       }
 
-      .btn-check:hover {
-        box-shadow: 0 0 12px rgba(0, 255, 204, 0.6);
+      @keyframes buttonGradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .btn:hover {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
         transform: translateY(-2px);
+      }
+
+      .btn::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.5s ease, height 0.5s ease;
+      }
+
+      .btn:hover::after {
+        width: 300px;
+        height: 300px;
+        opacity: 0;
       }
 
       .instructions {
@@ -180,12 +276,15 @@
         padding: 20px;
         margin-bottom: 20px;
         border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
       }
 
       .instructions h2 {
         font-size: 1.3rem;
         font-weight: 600;
-        color: #00ffcc;
+        background: linear-gradient(45deg, #00ffcc, #ff00cc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         margin-bottom: 15px;
       }
 
@@ -217,6 +316,7 @@
         font-size: 1rem;
         font-weight: 500;
         text-align: center;
+        box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
       }
 
       .contact {
@@ -231,6 +331,7 @@
 
       .contact a:hover {
         text-decoration: underline;
+        text-shadow: 0 0 5px #00ffcc;
       }
 
       /* Responsive */
@@ -268,12 +369,13 @@
         .avatar {
           width: 80px;
           height: 80px;
-          border: 4px solid #00ffcc;
-          box-shadow: 0 0 12px #00ffcc;
+          border: 4px solid;
+          border-image: linear-gradient(45deg, #00ffcc, #ff00cc) 1;
+          box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
         }
 
         .avatar:hover {
-          box-shadow: 0 0 15px #00ffcc;
+          box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
         }
 
         .wallet-address label {
@@ -364,39 +466,35 @@
       <div class="contact">
         <p>
           Có vấn đề? Liên hệ chúng tôi:
-          <a href="Zalo Hỗ Trợ:https://zalo.me/g/qardra541"
-            >https://zalo.me/g/qardra541</a
-          >
-          |
-          <a href="tel:0983197621">0983197621</a>
+          <a href="mailto:support@yourcompany.com">support@yourcompany.com</a> |
+          <a href="tel:+1234567890">+123-456-7890</a>
         </p>
       </div>
     </div>
 
     <script>
-      // Danh sách dữ liệu thành viên
+      // Danh sách dữ liệu thành viên với tag_id ngắn gọn
       const memberData = {
-        123456789: {
+        "001": {
           avatar:
-            "https://scontent.fthd2-4.fna.fbcdn.net/v/t39.30808-6/491917961_1727005108174242_2078688021012827982_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeF110oOHlXOlTFF9oYk0r3yYQ1m-g7itQVhDWb6DuK1BZ3sucE9z-7uwDUarxY0D3CfbfU9tcST3gZTIhhGu6An&_nc_ohc=4SzFps2yJzUQ7kNvwEjbbI0&_nc_oc=AdlMsqLc3RERCRAr8_RTQcXggeezb4pl4YZO08T0thGyZgr8_LAKUgBtdlRfU6L2RQ2xeWiNRYVF3pyGu_sxpg5z&_nc_zt=23&_nc_ht=scontent.fthd2-4.fna&_nc_gid=xbtc_eNeN8h5TYOpmzvVDQ&oh=00_AfFJwYuB4X97FyZ25v2uD2Vu1kr5FEl1P_FOuD2v6TfhCQ&oe=68095262",
-          wallet_address:
-            "GCZFAMVL3JZVWIBYB4YAKZKVPCIJG5ZAFKNLNYRJPYGS4TUI6AI3O5Y3",
+            "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          wallet_address: "fgdsghgfhgjhgjhgjddgdfgdsgdfg",
           explorer_link:
-            "https://blockexplorer.minepi.com/mainnet/accounts/GCZFAMVL3JZVWIBYB4YAKZKVPCIJG5ZAFKNLNYRJPYGS4TUI6AI3O5Y3",
+            "https://piscan.io/account/GDAANKWVGG4TAOWHGYDLP3JTRFCMWZILFATBJRFL54COWYNDL6KBAOYR",
         },
-        987654321: {
+        "002": {
           avatar:
             "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
           wallet_address: "abc123xyz456def789ghi000jkl",
           explorer_link:
             "https://piscan.io/account/ABC123XYZ456DEF789GHI000JKL",
         },
-        456789123: {
+        "003": {
           avatar: "https://via.placeholder.com/100?text=Member3",
           wallet_address: "mno456pqr789stu123vwx456yz",
           explorer_link: "https://piscan.io/account/MNO456PQR789STU123VWX456YZ",
         },
-        // Thêm thông tin cho 100 thành viên hoặc nhiều hơn tại đây
+        // Thêm thông tin cho 100 thành viên hoặc nhiều hơn tại đây (004, 005, ...)
       };
 
       // Lấy tag_id từ URL

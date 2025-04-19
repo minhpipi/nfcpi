@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kiểm Tra Ví Pi - Công Nghệ Tương Lai</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Orbitron", sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+        color: #ffffff;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 600px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.15);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 2.4rem;
+        font-weight: 900;
+        color: #00ffcc;
+        text-shadow: 0 0 3px #00ffcc, 0 0 6px #00ffcc;
+        -webkit-text-stroke: 0.5px #003333;
+        margin-bottom: 15px;
+        animation: neon 1.5s ease-in-out infinite alternate;
+      }
+
+      @keyframes neon {
+        from {
+          text-shadow: 0 0 3px #00ffcc, 0 0 6px #00ffcc;
+        }
+        to {
+          text-shadow: 0 0 5px #00ffcc, 0 0 8px #00ffcc;
+        }
+      }
+
+      /* Avatar styles */
+      .avatar-section {
+        text-align: center;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .avatar-wrapper {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 0; /* Hình vuông */
+        object-fit: cover;
+        border: 4px solid #00ffcc;
+        box-shadow: 0 0 20px #00ffcc;
+        animation: pulse 2s ease-in-out infinite;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .avatar:hover {
+        animation-play-state: paused;
+        box-shadow: 0 0 30px #00ffcc;
+        transform: scale(1.1);
+      }
+
+      .wallet-address {
+        margin-bottom: 20px;
+      }
+
+      .wallet-address label {
+        display: block;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #00ffcc;
+      }
+
+      .wallet-address textarea {
+        width: 100%;
+        height: 60px;
+        padding: 10px;
+        border: 2px solid #00ffcc;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+        font-size: 1rem;
+        font-family: "Orbitron", sans-serif;
+        outline: none;
+        resize: none;
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+        transition: all 0.3s ease;
+      }
+
+      .wallet-address textarea[readonly] {
+        background: rgba(255, 255, 255, 0.1);
+        cursor: default;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 30px;
+        justify-content: center;
+      }
+
+      .btn {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: #ffffff;
+      }
+
+      .btn-copy {
+        background: #ff00cc;
+        box-shadow: 0 0 8px rgba(255, 0, 204, 0.4);
+      }
+
+      .btn-copy:hover {
+        box-shadow: 0 0 12px rgba(255, 0, 204, 0.6);
+        transform: translateY(-2px);
+      }
+
+      .btn-check {
+        background: #00ccff;
+        box-shadow: 0 0 8px rgba(0, 255, 204, 0.4);
+      }
+
+      .btn-check:hover {
+        box-shadow: 0 0 12px rgba(0, 255, 204, 0.6);
+        transform: translateY(-2px);
+      }
+
+      .instructions {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .instructions h2 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #00ffcc;
+        margin-bottom: 15px;
+      }
+
+      .instructions ol {
+        list-style: decimal;
+        padding-left: 20px;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #ffffff;
+      }
+
+      .instructions ol li {
+        margin-bottom: 10px;
+      }
+
+      .instructions ul {
+        list-style: disc;
+        padding-left: 20px;
+        margin-top: 5px;
+      }
+
+      .security-note {
+        background: rgba(255, 0, 0, 0.15);
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255, 0, 0, 0.3);
+        color: #ff9999;
+        font-size: 1rem;
+        font-weight: 500;
+        text-align: center;
+      }
+
+      .contact {
+        text-align: center;
+      }
+
+      .contact a {
+        color: #00ffcc;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .contact a:hover {
+        text-decoration: underline;
+      }
+
+      /* Responsive */
+      @media (max-width: 480px) {
+        body {
+          padding: 10px;
+        }
+
+        h1 {
+          font-size: 2.2rem;
+        }
+
+        .container {
+          padding: 20px;
+          max-width: 100%;
+        }
+
+        .action-buttons {
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .btn {
+          width: 100%;
+          text-align: center;
+          padding: 15px;
+          font-size: 1.2rem;
+        }
+
+        .avatar-wrapper {
+          width: 80px;
+          height: 80px;
+        }
+
+        .avatar {
+          width: 80px;
+          height: 80px;
+          border: 4px solid #00ffcc;
+          box-shadow: 0 0 12px #00ffcc;
+        }
+
+        .avatar:hover {
+          box-shadow: 0 0 15px #00ffcc;
+        }
+
+        .wallet-address label {
+          font-size: 1.2rem;
+        }
+
+        .wallet-address textarea {
+          font-size: 1.1rem;
+          height: 80px;
+        }
+
+        .instructions h2 {
+          font-size: 1.4rem;
+        }
+
+        .instructions ol {
+          font-size: 1.1rem;
+        }
+
+        .security-note {
+          font-size: 1.1rem;
+        }
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Kiểm Tra Ví Pi</h1>
+
+      <!-- Avatar section -->
+      <div class="avatar-section">
+        <div class="avatar-wrapper">
+          <img
+            id="avatar"
+            class="avatar"
+            src="https://via.placeholder.com/100?text=Avatar"
+            alt="Avatar"
+          />
+        </div>
+      </div>
+
+      <!-- Hiển thị địa chỉ ví -->
+      <div class="wallet-address">
+        <label for="wallet-address">Địa chỉ ví Pi của bạn:</label>
+        <textarea id="wallet-address" readonly>Chưa có địa chỉ ví</textarea>
+      </div>
+
+      <!-- Các nút hành động -->
+      <div class="action-buttons">
+        <button class="btn btn-copy" onclick="copyWalletAddress()">
+          Copy địa chỉ ví
+        </button>
+        <a id="explorer-link" href="#" class="btn btn-check">Kiểm tra ví</a>
+      </div>
+
+      <!-- Hướng dẫn kiểm tra ví -->
+      <div class="instructions">
+        <h2>Hướng dẫn kiểm tra ví</h2>
+        <ol>
+          <li>Nhấn "Copy địa chỉ ví" để sao chép địa chỉ ví của bạn.</li>
+          <li>Nhấn "Kiểm tra ví" để xem thông tin ví trên Piscan.</li>
+          <li>Xem số dư và lịch sử giao dịch của bạn.</li>
+          <li>
+            Kiểm tra giao dịch bất thường:
+            <ul>
+              <li>Giao dịch gửi đi lớn (VD: >50 Pi).</li>
+              <li>Nhiều giao dịch gửi đi liên tiếp trong thời gian ngắn.</li>
+            </ul>
+          </li>
+          <li>
+            Nếu phát hiện vấn đề, liên hệ chúng tôi qua thông tin bên dưới.
+          </li>
+        </ol>
+      </div>
+
+      <!-- Cảnh báo bảo mật -->
+      <div class="security-note">
+        <strong>Cảnh báo:</strong> Không chia sẻ khóa bí mật (private key) hoặc
+        cụm từ khôi phục của ví với bất kỳ ai. Chúng tôi không bao giờ yêu cầu
+        thông tin này.
+      </div>
+
+      <!-- Liên hệ -->
+      <div class="contact">
+        <p>
+          Có vấn đề? Liên hệ chúng tôi:
+          <a href="Zalo Hỗ Trợ:https://zalo.me/g/qardra541"
+            >https://zalo.me/g/qardra541</a
+          >
+          |
+          <a href="tel:0983197621">0983197621</a>
+        </p>
+      </div>
+    </div>
+
+    <script>
+      // Danh sách dữ liệu thành viên
+      const memberData = {
+        123456789: {
+          avatar:
+            "https://scontent.fthd2-4.fna.fbcdn.net/v/t39.30808-6/491917961_1727005108174242_2078688021012827982_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeF110oOHlXOlTFF9oYk0r3yYQ1m-g7itQVhDWb6DuK1BZ3sucE9z-7uwDUarxY0D3CfbfU9tcST3gZTIhhGu6An&_nc_ohc=4SzFps2yJzUQ7kNvwEjbbI0&_nc_oc=AdlMsqLc3RERCRAr8_RTQcXggeezb4pl4YZO08T0thGyZgr8_LAKUgBtdlRfU6L2RQ2xeWiNRYVF3pyGu_sxpg5z&_nc_zt=23&_nc_ht=scontent.fthd2-4.fna&_nc_gid=xbtc_eNeN8h5TYOpmzvVDQ&oh=00_AfFJwYuB4X97FyZ25v2uD2Vu1kr5FEl1P_FOuD2v6TfhCQ&oe=68095262",
+          wallet_address:
+            "GCZFAMVL3JZVWIBYB4YAKZKVPCIJG5ZAFKNLNYRJPYGS4TUI6AI3O5Y3",
+          explorer_link:
+            "https://blockexplorer.minepi.com/mainnet/accounts/GCZFAMVL3JZVWIBYB4YAKZKVPCIJG5ZAFKNLNYRJPYGS4TUI6AI3O5Y3",
+        },
+        987654321: {
+          avatar:
+            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          wallet_address: "abc123xyz456def789ghi000jkl",
+          explorer_link:
+            "https://piscan.io/account/ABC123XYZ456DEF789GHI000JKL",
+        },
+        456789123: {
+          avatar: "https://via.placeholder.com/100?text=Member3",
+          wallet_address: "mno456pqr789stu123vwx456yz",
+          explorer_link: "https://piscan.io/account/MNO456PQR789STU123VWX456YZ",
+        },
+        // Thêm thông tin cho 100 thành viên hoặc nhiều hơn tại đây
+      };
+
+      // Lấy tag_id từ URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const tagId = urlParams.get("tag_id");
+      const avatarImg = document.getElementById("avatar");
+      const walletInput = document.getElementById("wallet-address");
+      const explorerLink = document.getElementById("explorer-link");
+
+      // Hiển thị thông tin dựa trên tag_id
+      if (tagId && memberData[tagId]) {
+        const member = memberData[tagId];
+        avatarImg.src = member.avatar;
+        walletInput.value = member.wallet_address;
+        explorerLink.href = member.explorer_link;
+      } else {
+        avatarImg.src = "https://via.placeholder.com/100?text=Avatar";
+        walletInput.value = "Không tìm thấy thông tin thành viên";
+        explorerLink.href = "#";
+        explorerLink.style.pointerEvents = "none";
+        explorerLink.style.opacity = "0.5";
+      }
+
+      // Hàm copy địa chỉ ví
+      function copyWalletAddress() {
+        const walletAddress = walletInput.value;
+        if (
+          walletAddress &&
+          walletAddress !== "Không tìm thấy thông tin thành viên"
+        ) {
+          navigator.clipboard
+            .writeText(walletAddress)
+            .then(() => {
+              alert("Đã copy địa chỉ ví: " + walletAddress);
+            })
+            .catch(() => {
+              alert("Lỗi khi copy, vui lòng thử lại.");
+            });
+        } else {
+          alert("Không có địa chỉ ví để copy.");
+        }
+      }
+    </script>
+  </body>
+</html>
